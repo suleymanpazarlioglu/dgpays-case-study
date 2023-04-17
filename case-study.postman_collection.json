@@ -1,0 +1,729 @@
+{
+	"info": {
+		"_postman_id": "ad6f1615-b58e-4dd2-90b8-bade5e8838d8",
+		"name": "case-study",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26916092"
+	},
+	"item": [
+		{
+			"name": "CASE 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than limit\", function() {",
+							"var limit = 500;",
+							"pm.expect(pm.response.responseTime).to.be.below(limit);  ",
+							"if (pm.response.responseTime < limit) {      ",
+							"    console.log(\"Response Time: \" + pm.response.responseTime + \" ms\" + \" / Response Date: \" + pm.response.headers.get(\"Date\"));",
+							"} else {",
+							"    console.log(\"Response time was longer than \" + limit + \" ms.\");",
+							"}",
+							"});",
+							"",
+							"pm.test(\"Response Key Check\", function () {",
+							"\tpm.expect(pm.response.text()).to.include(\"id\");",
+							"   })",
+							"",
+							"pm.test(\"response should have id attribute with correct data type\", () => {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.id).to.be.a(\"string\");",
+							"  //pm.expect(jsonData.id).eqls(\"d78e8236-ef08-5f1c-a34b-de7ed4087b49\")",
+							"  ",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\",\"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"id\",jsonData.id );",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function getRandomStringCode() {",
+							"  var random = Math.floor(Math.random()*90000) + 10000;",
+							"  const code = \"PostmanAutomationTask-\"+random;",
+							"  return code;",
+							"}",
+							"",
+							"var lastCode = getRandomStringCode();",
+							"pm.collectionVariables.set(\"code\", lastCode);",
+							"",
+							"function randomStringName(len) {",
+							"    var charSet ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+							"    var randomString = '';",
+							"    for (var i = 0; i < len; i++) {",
+							"        var randomPoz = Math.floor(Math.random() * charSet.length);",
+							"        randomString += charSet.substring(randomPoz,randomPoz+1);",
+							"    }",
+							"    return randomString;",
+							"}",
+							"",
+							"function randomInt(min, max) {",
+							"  return Math.floor(Math.random() * (max - min)) + min;",
+							"}",
+							"",
+							"var globalName=randomStringName(randomInt(3,6));",
+							"pm.collectionVariables.set(\"name\", globalName);",
+							"",
+							"var uuid = require('uuid');",
+							"var myUUID = uuid.v4();",
+							"pm.collectionVariables.set(\"productGroupId\",myUUID);",
+							"",
+							"var bankAccount=pm.variables.replaceIn('{{$randomBankAccount}}');",
+							"pm.collectionVariables.set(\"bankAccount\",bankAccount);",
+							"",
+							"function financeSource() {",
+							"  var randomInt=pm.variables.replaceIn('{{$randomInt}}');",
+							"  var randomString=randomInt.toString();",
+							"  return randomString;",
+							"}",
+							"",
+							"var financeSource=financeSource();",
+							"pm.collectionVariables.set(\"financeSource\",financeSource);",
+							"",
+							"function getRandomDate() {",
+							"  const start = new Date(\"1900-01-01T00:00:00\").getTime();",
+							"  const end = new Date().getTime();",
+							"  const randomTime = start + Math.random() * (end - start);",
+							"  const randomDate = new Date(randomTime);",
+							"  return randomDate.toISOString();",
+							"}",
+							"",
+							"var birthDate=getRandomDate();",
+							"pm.collectionVariables.set(\"birthDate\",birthDate);",
+							"",
+							"",
+							"function financeType(){",
+							"    return Math.floor((Math.random() * 100000) + 100);",
+							"}",
+							"",
+							"var globalFinanceType=financeType();",
+							"pm.collectionVariables.set(\"financeType\",globalFinanceType);",
+							"",
+							"var dateDifference=pm.variables.replaceIn('{{$randomInt}}');",
+							"pm.collectionVariables.set(\"dateDifference\",dateDifference);",
+							"",
+							"",
+							"function randomBooleanIsActive(){",
+							"    var randomBoolean = Math.random() >= 0.5;",
+							"    return randomBoolean;",
+							"}",
+							"var isActive=randomBooleanIsActive();",
+							"pm.collectionVariables.set(\"isActive\",isActive);",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"{{code}}\",\n    \"name\": \"{{name}}\",\n    \"productGroupId\": \"{{productGroupId}}\",\n    \"BankAccount\": \"{{bankAccount}}\",\n    \"FinanceSource\": \"{{financeSource}}\",\n    \"BirthDate\": \"{{birthDate}}\",\n    \"financeType\": {{financeType}},\n    \"dateDifference\": {{dateDifference}},\n    \"isActive\": {{isActive}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/dgpays",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Response Key Check\", function () {",
+							"\tpm.expect(pm.response.text()).to.include(\"name\");",
+							"    pm.expect(pm.response.text()).to.include(\"message\");",
+							"});",
+							" var jsonData = pm.response.json();",
+							"pm.test(\"Verify error is not null\", function () {   ",
+							"    pm.expect(jsonData.error.message).to.not.eql(null);",
+							"    ",
+							"});",
+							"pm.test(\"Verify error body has correct name and message values\", function () {",
+							"    pm.expect(jsonData.error.name).eql(\"badRequest\");",
+							"    pm.expect(jsonData.error.message).eql(\"Request body has invalid format.\");",
+							"    });",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\",\"application/json; charset=utf-8\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"code\": \"\",\n  \"failedName\": ,\n  \"productGroupId\": \"\",\n  \"BankAccount\": \"\",\n  \"FinanceSource\":\"\",\n  \"BirthDate\": \"\",\n  \"financeType\":\"\",\n  \"dateDifference\": \"\",\n  \"isActive\": \"\"\n      }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/dgpays",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Your test name\", function () {",
+							"     pm.expect(jsonData.args.TestData[0].id).to.include(\"c93eac0a-ea2d-0880-ccc7-38c552c6fb01\");",
+							"    pm.expect(jsonData.args.TestData[0].code).to.include(\"generatedbyPostman-V0Dgn\");",
+							"    pm.expect(jsonData.args.TestData[0].name).to.include(\"generatedbyPostman-cy32pm259N89XOx3\");",
+							"    pm.expect(jsonData.args.TestData[0].description).to.include(\"generatedbyPostman-d5wylngsWPq7A2zOXO9Yek\");",
+							"    pm.expect(jsonData.args.TestData[0].productGroupId).to.include(\"c93eabdb-a4f6-b295-4727-47cc42182aa5\");",
+							"    pm.expect(jsonData.args.TestData[0].fundingSource).to.eql(1);",
+							"    pm.expect(jsonData.args.TestData[0].proposalValidityDay).to.eql(1);",
+							"    pm.expect(jsonData.args.TestData[0].profitCalculationMethod).to.eql(1);",
+							"    pm.expect(jsonData.args.TestData[0].financeType).to.eql(1);",
+							"    pm.expect(jsonData.args.TestData[0].dateDifference).to.eql(1);",
+							"    pm.expect(jsonData.args.TestData[0].isActive).to.eql(true);",
+							"    pm.expect(jsonData.args.TestData[0].accountProductId).to.include(\"0b871807-b8e3-4a7b-8cca-363e0a8c7c05\");",
+							"});",
+							"",
+							"pm.test(\"Response Text\", function () {",
+							"\tpm.expect(pm.response.text()).to.include(\"id\");",
+							"    pm.expect(pm.response.text()).to.include(\"code\");",
+							"    pm.expect(pm.response.text()).to.include(\"name\");",
+							"    pm.expect(pm.response.text()).to.include(\"description\");",
+							"    pm.expect(pm.response.text()).to.include(\"productGroupId\");",
+							"    pm.expect(pm.response.text()).to.include(\"fundingSource\");",
+							"    pm.expect(pm.response.text()).to.include(\"proposalValidityDay\");",
+							"    pm.expect(pm.response.text()).to.include(\"profitCalculationMethod\");",
+							"    pm.expect(pm.response.text()).to.include(\"financeType\");",
+							"    pm.expect(pm.response.text()).to.include(\"dateDifference\");",
+							"    pm.expect(pm.response.text()).to.include(\"isActive\");",
+							"    pm.expect(pm.response.text()).to.include(\"accountProductId\");",
+							"})",
+							"",
+							"",
+							"pm.test(\"Test data type of the response\", () => {",
+							"  pm.expect(jsonData.args.TestData[0].id).to.be.a(\"string\");",
+							"  pm.expect(jsonData.args.TestData[0].code).to.be.a(\"string\");",
+							"  pm.expect(jsonData.args.TestData[0].name).to.be.a(\"string\");",
+							"  pm.expect(jsonData.args.TestData[0].description).to.be.a(\"string\");",
+							"  pm.expect(jsonData.args.TestData[0].productGroupId).to.be.a(\"string\");",
+							"  pm.expect(jsonData.args.TestData[0].fundingSource).to.be.a(\"number\");",
+							"  pm.expect(jsonData.args.TestData[0].proposalValidityDay).to.be.a(\"number\");",
+							"  pm.expect(jsonData.args.TestData[0].profitCalculationMethod).to.be.a(\"number\");",
+							"  pm.expect(jsonData.args.TestData[0].financeType).to.be.a(\"number\");",
+							"  pm.expect(jsonData.args.TestData[0].dateDifference).to.be.a(\"number\");",
+							"  pm.expect(jsonData.args.TestData[0].isActive).to.be.a(\"boolean\");",
+							"  pm.expect(jsonData.args.TestData[0].accountProductId).to.be.a(\"string\");",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/dgpays",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);\r",
+							"console.log(\"https method: \" + request.method);\r",
+							"console.log(\"url: \" + request.url);\r",
+							"console.log(\"response code : \" + responseCode.code);\r",
+							"console.log(\"response name : \" + responseCode.name);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Body should have correct id\", function () {\r",
+							"    var id = pm.collectionVariables.get(\"id\");\r",
+							"    //console.log(id);\r",
+							"    pm.expect(pm.response.text()).to.include(id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type should be text/html; charset=utf-8\", function () {\r",
+							"    pm.response.to.be.header(\"Content-Type\",\"text/html; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/dgpays/{{id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 5",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"User should able to see Basarili\", function () {",
+							"    pm.response.to.have.body(\"Basarili\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \n  \"code\": \"{{code}}\",\n  \"name\": \"{{name}}\",\n  \"productGroupId\": \"{{productGroupId}}\",\n  \"BankAccount\": \"{{bankAccount}}\",\n  \"FinanceSource\":\"{{financeSource}}\",\n  \"BirthDate\": \"{{birthDate}}\",\n  \"financeType\": {{financeType}},\n  \"dateDifference\": {{dateDifference}},\n  \"isActive\": {{isActive}}\n      \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/dgpays/{{id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 6",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uuid = require('uuid');",
+							"var myUUID = uuid.v4();",
+							"pm.collectionVariables.set(\"randomId\",myUUID);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"",
+							"pm.test(\"Response Key Check\", function () {",
+							"\tpm.expect(pm.response.text()).to.include(\"code\");",
+							"    pm.expect(pm.response.text()).to.include(\"message\");",
+							"});",
+							"",
+							"pm.test(\"Verify error is not null\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error.message).to.not.eql(null);",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/dgpays/{{randomId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays",
+						"{{randomId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Text message check\", function () {",
+							"    pm.response.to.have.body(\"Basarili\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/dgpays/{{id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 8",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"End Point: \" + request.name);",
+							"console.log(\"https method: \" + request.method);",
+							"console.log(\"url: \" + request.url);",
+							"console.log(\"response code : \" + responseCode.code);",
+							"console.log(\"response name : \" + responseCode.name);",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Response Key Check\", function () {",
+							"\tpm.expect(pm.response.text()).to.include(\"code\");",
+							"    pm.expect(pm.response.text()).to.include(\"message\");",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Verify error is not null\", function () {",
+							"    pm.expect(jsonData.error.message).to.not.eql(null);",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Verify error body has correct name and message values\", function () {",
+							"    pm.expect(jsonData.error.code).eql(\"ERR_ACCNT_10\");",
+							"    pm.expect(jsonData.error.message).eql(\"ID is not found.\");",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/dgpays/{{randomId}}/error",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"dgpays",
+						"{{randomId}}",
+						"error"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{value}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "{{APIKEY}}",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "code",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "productGroupId",
+			"value": ""
+		},
+		{
+			"key": "bankAccount",
+			"value": ""
+		},
+		{
+			"key": "financeSource",
+			"value": ""
+		},
+		{
+			"key": "birthDate",
+			"value": ""
+		},
+		{
+			"key": "financeType",
+			"value": ""
+		},
+		{
+			"key": "dateDifference",
+			"value": ""
+		},
+		{
+			"key": "isActive",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "randomId",
+			"value": ""
+		}
+	]
+}
